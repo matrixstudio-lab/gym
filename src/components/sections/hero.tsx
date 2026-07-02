@@ -1,9 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowRight, PlayCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { VideoModal } from "@/components/ui/video-modal";
 
 const STATS = [
   { value: "500+", label: "Beasts Trained" },
@@ -12,6 +14,8 @@ const STATS = [
 ];
 
 export function Hero() {
+  const [videoOpen, setVideoOpen] = useState(false);
+
   return (
     <section
       id="top"
@@ -82,7 +86,7 @@ export function Hero() {
                 className="transition-transform group-hover:translate-x-1"
               />
             </Button>
-            <Button variant="ghost" size="lg">
+            <Button variant="ghost" size="lg" onClick={() => setVideoOpen(true)}>
               <PlayCircle size={20} />
               Watch The Floor
             </Button>
@@ -150,6 +154,12 @@ export function Hero() {
           </motion.div>
         </motion.div>
       </div>
+
+      <VideoModal
+        open={videoOpen}
+        onClose={() => setVideoOpen(false)}
+        src="/hero-vid.mp4"
+      />
     </section>
   );
 }
