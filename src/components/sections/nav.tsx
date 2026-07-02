@@ -1,7 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import { Menu, X, Dumbbell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -16,6 +22,13 @@ const LINKS = [
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, {
+    stiffness: 300,
+    damping: 40,
+    mass: 0.4,
+  });
+  const headPosition = useTransform(progress, (v) => `${v * 100}%`);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -105,6 +118,20 @@ export function Nav() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <div className="absolute bottom-0 inset-x-0 h-px overflow-visible">
+        <motion.div
+          style={{ scaleX: progress }}
+          className="absolute inset-y-0 left-0 w-full origin-left bg-beast/50"
+        />
+        <motion.div
+          style={{ left: headPosition }}
+          className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 h-2.5 w-2.5"
+        >
+          <span className="absolute inset-0 rounded-full bg-beast blur-[6px] motion-reduce:hidden" />
+          <span className="absolute inset-0 rounded-full bg-beast animate-pulse motion-reduce:animate-none" />
+        </motion.div>
+      </div>
     </header>
   );
 }
