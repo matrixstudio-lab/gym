@@ -30,7 +30,7 @@ const SERVICES = [
 
 export function Services() {
   return (
-    <section id="services" className="py-24 sm:py-32">
+    <section id="services" className="pt-24 sm:pt-32">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <SectionHeading
           eyebrow="What We Do"
@@ -65,7 +65,7 @@ export function Services() {
         </div>
       </div>
 
-      <div className="mt-20">
+      <div className="mt-20 sm:mt-24">
         <Marquee
           items={[
             "No Mirrors",

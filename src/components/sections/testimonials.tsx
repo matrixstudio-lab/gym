@@ -1,9 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
 import { Quote } from "lucide-react";
 import { SectionHeading } from "@/components/ui/section-heading";
+import {
+  ScrollVelocityContainer,
+  ScrollVelocityRow,
+} from "@/components/ui/scroll-based-velocity";
 
 const TESTIMONIALS = [
   {
@@ -32,6 +35,61 @@ const TESTIMONIALS = [
   },
 ];
 
+const TESTIMONIALS_ROW_2 = [
+  {
+    name: "Suvam Chatterjee",
+    result: "Squat 70kg → 140kg",
+    quote:
+      "Doubled my squat in under a year. The programming actually adapts when a lift stalls instead of grinding you into the ground.",
+    image:
+      "https://images.unsplash.com/photo-1583468982228-19f19164aee2?q=80&w=400&auto=format&fit=crop",
+  },
+  {
+    name: "Ananya Sengupta",
+    result: "Rebuilt after a shoulder injury",
+    quote:
+      "I was scared to press again after surgery. The coaches rebuilt my confidence rep by rep, not just my strength.",
+    image:
+      "https://images.unsplash.com/photo-1550345332-09e3ac987658?q=80&w=400&auto=format&fit=crop",
+  },
+  {
+    name: "Rohan Banerjee",
+    result: "Bench 60kg → 110kg",
+    quote:
+      "Every session has a purpose. No wasted sets, no guessing what to do next — just steady, tracked progress on the bar.",
+    image:
+      "https://images.unsplash.com/photo-1567013127542-490d757e51fc?q=80&w=400&auto=format&fit=crop",
+  },
+];
+
+function TestimonialCard({ t }: { t: (typeof TESTIMONIALS)[number] }) {
+  return (
+    <figure className="mx-3 inline-flex w-85 sm:w-100 shrink-0 flex-col gap-6 whitespace-normal rounded-2xl border border-charcoal-2 bg-ink p-8 align-top">
+      <Quote className="text-beast/70" size={28} strokeWidth={2} />
+      <blockquote className="text-bone/80 leading-relaxed">
+        &ldquo;{t.quote}&rdquo;
+      </blockquote>
+      <figcaption className="mt-auto flex items-center gap-3 pt-4 border-t border-charcoal-2">
+        <div className="relative w-11 h-11 rounded-full overflow-hidden shrink-0">
+          <Image
+            src={t.image}
+            alt={`Portrait of ${t.name}`}
+            fill
+            sizes="44px"
+            className="object-cover"
+          />
+        </div>
+        <div>
+          <p className="font-display uppercase tracking-wide text-sm">
+            {t.name}
+          </p>
+          <p className="font-mono text-xs text-beast">{t.result}</p>
+        </div>
+      </figcaption>
+    </figure>
+  );
+}
+
 export function Testimonials() {
   return (
     <section id="testimonials" className="py-24 sm:py-32 bg-charcoal">
@@ -41,41 +99,24 @@ export function Testimonials() {
           title="Beasts In The"
           accent="Making"
         />
+      </div>
 
-        <div className="mt-16 grid md:grid-cols-3 gap-6">
-          {TESTIMONIALS.map((t, i) => (
-            <motion.figure
-              key={t.name}
-              initial={{ opacity: 0, y: 28 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.5, delay: i * 0.1, ease: "easeOut" }}
-              className="relative rounded-2xl border border-charcoal-2 bg-ink p-8 flex flex-col gap-6"
-            >
-              <Quote className="text-beast/70" size={28} strokeWidth={2} />
-              <blockquote className="text-bone/80 leading-relaxed">
-                &ldquo;{t.quote}&rdquo;
-              </blockquote>
-              <figcaption className="mt-auto flex items-center gap-3 pt-4 border-t border-charcoal-2">
-                <div className="relative w-11 h-11 rounded-full overflow-hidden shrink-0">
-                  <Image
-                    src={t.image}
-                    alt={`Portrait of ${t.name}`}
-                    fill
-                    sizes="44px"
-                    className="object-cover"
-                  />
-                </div>
-                <div>
-                  <p className="font-display uppercase tracking-wide text-sm">
-                    {t.name}
-                  </p>
-                  <p className="font-mono text-xs text-beast">{t.result}</p>
-                </div>
-              </figcaption>
-            </motion.figure>
-          ))}
-        </div>
+      <div className="relative mt-16 sm:mt-20">
+        <ScrollVelocityContainer className="w-full">
+          <ScrollVelocityRow baseVelocity={3} direction={1} className="py-3">
+            {TESTIMONIALS.map((t) => (
+              <TestimonialCard key={t.name} t={t} />
+            ))}
+          </ScrollVelocityRow>
+          <ScrollVelocityRow baseVelocity={3} direction={-1} className="py-3">
+            {TESTIMONIALS_ROW_2.map((t) => (
+              <TestimonialCard key={t.name} t={t} />
+            ))}
+          </ScrollVelocityRow>
+        </ScrollVelocityContainer>
+
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-32 bg-linear-to-r from-charcoal to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-32 bg-linear-to-l from-charcoal to-transparent" />
       </div>
     </section>
   );

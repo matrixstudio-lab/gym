@@ -122,7 +122,7 @@ export function Hero() {
               sizes="(min-width: 1024px) 40vw, 90vw"
               className="object-cover object-top"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/10 to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-t from-ink via-ink/10 to-transparent" />
           </div>
 
           <motion.div
